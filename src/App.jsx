@@ -8,9 +8,6 @@ export default function App() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState('hero');
 
-  // Form states
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
-  const [formStatus, setFormStatus] = useState(null); // 'success', 'error'
 
   useEffect(() => {
     // Trigger skills bar animation after component mount
@@ -62,22 +59,6 @@ export default function App() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
-
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) {
-      setFormStatus({ type: 'error', text: 'All form fields are required.' });
-      return;
-    }
-    setFormStatus({ type: 'success', text: 'Thank you! Your message has been received.' });
-    setFormData({ name: '', email: '', message: '' });
-    
-    setTimeout(() => setFormStatus(null), 5000);
-  };
-
-  const handleInputChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
   // SVGs definition
   const svgIcons = {
@@ -323,7 +304,7 @@ export default function App() {
                 <span className="detail-label">LinkedIn</span>
                 <span className="detail-val" style={{ display: 'flex', alignItems: 'center' }}>
                   <a href="https://www.linkedin.com/in/rohith-v-28b065228/" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent-cyan)', textDecoration: 'none' }}>
-                    rohith-v-28b065228
+                    Rohit V
                   </a>
                 </span>
               </li>
@@ -595,25 +576,25 @@ export default function App() {
         <div className="contact-wrapper">
           
           <div className="contact-info">
-            <div className="contact-card">
+            <div className="contact-card glass-panel" style={{ padding: '24px 32px', minWidth: '280px' }}>
               <div className="contact-icon">{svgIcons.email}</div>
               <div className="contact-text">
                 <h4>Email</h4>
                 <p><a href="mailto:rohithviswanathan30@gmail.com">rohithviswanathan30@gmail.com</a></p>
               </div>
             </div>
-            <div className="contact-card">
+            <div className="contact-card glass-panel" style={{ padding: '24px 32px', minWidth: '280px' }}>
               <div className="contact-icon">{svgIcons.linkedin}</div>
               <div className="contact-text">
                 <h4>LinkedIn</h4>
                 <p>
                   <a href="https://www.linkedin.com/in/rohith-v-28b065228/" target="_blank" rel="noopener noreferrer">
-                    rohith-v-28b065228
+                    Rohit V
                   </a>
                 </p>
               </div>
             </div>
-            <div className="contact-card">
+            <div className="contact-card glass-panel" style={{ padding: '24px 32px', minWidth: '280px' }}>
               <div className="contact-icon">{svgIcons.location}</div>
               <div className="contact-text">
                 <h4>Location</h4>
@@ -621,58 +602,6 @@ export default function App() {
               </div>
             </div>
           </div>
-
-          <form className="contact-form glass-panel" onSubmit={handleFormSubmit}>
-            <h3 style={{ textAlign: 'left', marginBottom: '8px' }}>Send a Message</h3>
-            
-            {formStatus && (
-              <div className={`form-status ${formStatus.type}`}>
-                {formStatus.text}
-              </div>
-            )}
-
-            <div className="form-group">
-              <label htmlFor="name">Full Name</label>
-              <input 
-                type="text" 
-                id="name" 
-                name="name" 
-                value={formData.name}
-                onChange={handleInputChange}
-                className="form-control" 
-                placeholder="John Doe"
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="email">Email Address</label>
-              <input 
-                type="email" 
-                id="email" 
-                name="email" 
-                value={formData.email}
-                onChange={handleInputChange}
-                className="form-control" 
-                placeholder="john@example.com"
-                required
-              />
-            </div>
-            <div className="form-group">
-              <label htmlFor="message">Message</label>
-              <textarea 
-                id="message" 
-                name="message" 
-                value={formData.message}
-                onChange={handleInputChange}
-                className="form-control" 
-                placeholder="Write your project details or query..."
-                required
-              ></textarea>
-            </div>
-            <button type="submit" className="btn btn-primary" style={{ alignSelf: 'flex-start' }}>
-              Submit Message
-            </button>
-          </form>
 
         </div>
       </section>

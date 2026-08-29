@@ -794,16 +794,20 @@ header:not(.scrolled) {
 
 /* Contact Section */
 .contact-wrapper {
-  display: grid;
-  grid-template-columns: 0.8fr 1.2fr;
-  gap: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
 .contact-info {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 30px;
   text-align: left;
+  width: 100%;
 }
 
 .contact-card {
