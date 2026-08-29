@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import CyberMatrixBackground from './components/CyberMatrixBackground';
 import ScrollReveal from './components/ScrollReveal';
 
@@ -681,6 +682,7 @@ export default function App() {
       </div>
 
       <Analytics />
+      <SpeedInsights />
     </div>
   );
 }
