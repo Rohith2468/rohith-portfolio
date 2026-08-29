@@ -66,6 +66,19 @@ body {
 }
 
 /* Ambient Background Lights */
+.parallax-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+  transform: translate3d(var(--mouse-x, 0px), var(--mouse-y, 0px), 0);
+  transition: transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1);
+  will-change: transform;
+}
+
 .bg-glow-orb {
   position: absolute;
   border-radius: 50%;

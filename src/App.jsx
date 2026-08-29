@@ -60,6 +60,59 @@ export default function App() {
     };
   }, []);
 
+  // Mouse Parallax & Mobile Gyroscope Parallax Event Listeners
+  useEffect(() => {
+    // Mouse movement callback
+    const handleMouseMove = (e) => {
+      const { clientX, clientY } = e;
+      const xPercent = (clientX / window.innerWidth - 0.5) * 40; // Max 40px movement
+      const yPercent = (clientY / window.innerHeight - 0.5) * 40;
+      
+      document.documentElement.style.setProperty('--mouse-x', `${xPercent}px`);
+      document.documentElement.style.setProperty('--mouse-y', `${yPercent}px`);
+    };
+
+    // Mobile Gyroscope tilt callback
+    const handleOrientation = (e) => {
+      const { beta, gamma } = e; // beta [-180, 180] (tilt back/forward), gamma [-90, 90] (tilt left/right)
+      if (beta === null || gamma === null) return;
+      
+      // Limit angles to normal ranges & assume held at comfortable ~45 deg beta angle
+      const xTilt = Math.min(Math.max(gamma, -40), 40) * 0.9;
+      const yTilt = Math.min(Math.max(beta - 45, -40), 40) * 0.9;
+      
+      document.documentElement.style.setProperty('--mouse-x', `${xTilt}px`);
+      document.documentElement.style.setProperty('--mouse-y', `${yTilt}px`);
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+
+    // Permission request logic for iOS 13+ gyroscope
+    const requestGyroAccess = () => {
+      if (typeof DeviceOrientationEvent !== 'undefined' && 
+          typeof DeviceOrientationEvent.requestPermission === 'function') {
+        DeviceOrientationEvent.requestPermission()
+          .then(permissionState => {
+            if (permissionState === 'granted') {
+              window.addEventListener('deviceorientation', handleOrientation);
+            }
+          })
+          .catch(console.error);
+      } else {
+        window.addEventListener('deviceorientation', handleOrientation);
+      }
+    };
+
+    // Trigger permission dialog on first document interaction
+    document.addEventListener('click', requestGyroAccess, { once: true });
+
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('deviceorientation', handleOrientation);
+      document.removeEventListener('click', requestGyroAccess);
+    };
+  }, []);
+
   // SVGs definition
   const svgIcons = {
     code: (
@@ -145,10 +198,12 @@ export default function App() {
   return (
     <div style={{ position: 'relative' }}>
       
-      {/* Ambient background light orbs */}
-      <div className="bg-glow-orb orb-1"></div>
-      <div className="bg-glow-orb orb-2"></div>
-      <div className="bg-glow-orb orb-3"></div>
+      {/* Ambient background light orbs with parallax */}
+      <div className="parallax-bg">
+        <div className="bg-glow-orb orb-1"></div>
+        <div className="bg-glow-orb orb-2"></div>
+        <div className="bg-glow-orb orb-3"></div>
+      </div>
 
       {/* Navigation Header */}
       <header className={scrolled ? 'scrolled' : ''}>
