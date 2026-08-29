@@ -10,20 +10,21 @@ export default function App() {
 
 
   useEffect(() => {
-    // Trigger skills bar animation after component mount
-    const timer = setTimeout(() => setSkillsActive(true), 400);
-
     // Scroll reveal logic using IntersectionObserver
     const revealElements = document.querySelectorAll('.reveal');
     const observerOptions = {
       root: null,
-      threshold: 0.15,
+      threshold: 0.05, // Trigger earlier on scroll
     };
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('active');
+          // Animate skills bars specifically when they scroll into view
+          if (entry.target.id === 'skills') {
+            setSkillsActive(true);
+          }
         }
       });
     }, observerOptions);
@@ -54,7 +55,6 @@ export default function App() {
 
     window.addEventListener('scroll', handleScroll);
     return () => {
-      clearTimeout(timer);
       revealElements.forEach((el) => observer.unobserve(el));
       window.removeEventListener('scroll', handleScroll);
     };
@@ -302,10 +302,10 @@ export default function App() {
           </div>
 
           <div className="hero-graphic">
+            <div className="net-logo-glow">.NET</div>
             <div className="net-cube">
               <div className="net-cube-wireframe"></div>
               <div className="net-cube-wireframe cyan"></div>
-              <div className="net-logo-glow">.NET</div>
             </div>
           </div>
         </div>
